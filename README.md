@@ -1,2 +1,2 @@
 # pm
-some tests with hg4
+some tests with ng4
