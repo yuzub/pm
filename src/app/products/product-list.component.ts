@@ -4,16 +4,15 @@ import { IProduct } from './product';
 import { ProductService } from "./product.service";
 
 @Component({
-  selector: 'pm-products',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-
   pageTitle: string = 'Product List';
   imgWidth: number = 50;
   imgMargin: number = 2;
   showImage: boolean = false;
+  errorMessage: string;
 
   _listFilter: string;
   get listFilter(): string {
@@ -31,7 +30,7 @@ export class ProductListComponent implements OnInit {
   }
 
   onRatingClicked(message: string): void {
-    this.pageTitle = 'Product List: ' + message; 
+    this.pageTitle = 'Product List: ' + message;
   }
 
   performFilter(filterBy: string): IProduct[] {
@@ -46,8 +45,12 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log('In OnInit Product List Component');
-    this.products = this._productService.getProducts();
-    this.filteredProducts = this.products;
+    this._productService.getProducts()
+      .subscribe(products=> {
+        this.products = products;
+        this.filteredProducts = this.products;
+      },
+      error => this.errorMessage = <any>error);
   }
 
 }
