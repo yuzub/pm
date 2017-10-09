@@ -25,6 +25,14 @@ function ratingRange(min: number, max: number): ValidatorFn {
   }
 }
 
+function emailMatcher(c: AbstractControl) {
+  let emailControl = c.get('email');
+  let confirmControl = c.get('confirmEmail');
+  if (emailControl.pristine || confirmControl.pristine) return null;
+  if (emailControl.value === confirmControl.value) return null;
+  return { 'match': true };
+}
+
 @Component({
   selector: 'pm-signup-rf',
   templateUrl: './customer-rf.component.html'
@@ -44,7 +52,7 @@ export class CustomerRfComponent implements OnInit {
       emailGroup: this.fb.group({
         email: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+')]],
         confirmEmail: ['', Validators.required],
-      }),
+      }, {validator: emailMatcher}),
       phone: '',
       notification: 'email',
       rating: ['', ratingRange(1, 5)],
