@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
   // FormControl,
-  FormBuilder, Validators, AbstractControl, ValidatorFn
+  FormBuilder, Validators, AbstractControl, ValidatorFn, FormArray
 } from '@angular/forms';
 
 import 'rxjs/add/operator/debounceTime';
@@ -43,8 +43,14 @@ function emailMatcher(c: AbstractControl) {
 export class CustomerRfComponent implements OnInit {
   customerForm: FormGroup;
   //Data model below
-  customer: Customer = new Customer();
+  // customer: Customer = new Customer();
+
   emailMessage: string;
+
+  //getter for addresses
+  get addresses(): FormArray {
+    return <FormArray>this.customerForm.get('addresses');
+  }
 
   // the list of all available validation messages
   private validationMessages = {
@@ -66,7 +72,8 @@ export class CustomerRfComponent implements OnInit {
       phone: '',
       notification: 'email',
       rating: ['', ratingRange(1, 5)],
-      sendCatalog: true
+      sendCatalog: true,
+      addresses: this.fb.array([this.buildAddress()])
     });
 
     //This structure is the form model, and tracks the form value and state.
@@ -84,12 +91,27 @@ export class CustomerRfComponent implements OnInit {
     emailControl.valueChanges.debounceTime(1000).subscribe(value => this.setMessage(emailControl));
   }
 
+  addAddress(): void {
+    this.addresses.push(this.buildAddress());
+  }
+
+  buildAddress(): FormGroup {
+    return this.fb.group({
+      addressType: 'home',
+      street1: ['', [Validators.required]],
+      street2: '',
+      city: '',
+      state: '',
+      zip: ''
+    })
+  }
+
   populateTestAllData(): void {
     this.customerForm.setValue({
       firstName: 'Jack',
       lastName: 'Harkness',
       email: 'gm@gm.com',
-      sendCatalog: false
+      sendCatalog: false,
     });
   }
 
