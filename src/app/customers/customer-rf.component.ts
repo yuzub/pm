@@ -5,6 +5,8 @@ import {
   FormBuilder, Validators, AbstractControl, ValidatorFn
 } from '@angular/forms';
 
+import 'rxjs/add/operator/debounceTime';
+
 import { Customer } from './customer';
 
 // custom validator function
@@ -25,6 +27,7 @@ function ratingRange(min: number, max: number): ValidatorFn {
   }
 }
 
+// cross-field validation: custom validator
 function emailMatcher(c: AbstractControl) {
   let emailControl = c.get('email');
   let confirmControl = c.get('confirmEmail');
@@ -41,6 +44,13 @@ export class CustomerRfComponent implements OnInit {
   customerForm: FormGroup;
   //Data model below
   customer: Customer = new Customer();
+  emailMessage: string;
+
+  // the list of all available validation messages
+  private validationMessages = {
+    required: 'Please enter your email address.',
+    pattern: 'Please enter a valid email address.'
+  }
 
   constructor(private fb: FormBuilder) { }
 
@@ -52,7 +62,7 @@ export class CustomerRfComponent implements OnInit {
       emailGroup: this.fb.group({
         email: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+')]],
         confirmEmail: ['', Validators.required],
-      }, {validator: emailMatcher}),
+      }, { validator: emailMatcher }),
       phone: '',
       notification: 'email',
       rating: ['', ratingRange(1, 5)],
@@ -66,6 +76,12 @@ export class CustomerRfComponent implements OnInit {
           email: new FormControl(),
           sendCatalog: new FormControl(true)
         }); */
+
+    this.customerForm.get('notification').valueChanges
+      .subscribe(value => this.setNotification(value));
+
+    const emailControl = this.customerForm.get('emailGroup.email');
+    emailControl.valueChanges.debounceTime(1000).subscribe(value => this.setMessage(emailControl));
   }
 
   populateTestAllData(): void {
@@ -88,6 +104,15 @@ export class CustomerRfComponent implements OnInit {
   save() {
     console.log(this.customerForm);
     console.log('Saved: ' + JSON.stringify(this.customerForm.value));
+  }
+
+  setMessage(c: AbstractControl): void {
+    this.emailMessage = '';
+    if ((c.touched || c.dirty) && c.errors) {
+      this.emailMessage = Object.keys(c.errors)
+        .map(key => this.validationMessages[key])
+        .join(' ');
+    }
   }
 
 
