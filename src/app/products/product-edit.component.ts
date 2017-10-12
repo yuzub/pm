@@ -25,7 +25,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     productForm: FormGroup;
 
     product: IProduct;
-    private sub: Subscription;
+    private sub: Subscription; // for subscription on changes of route parameter id
 
     // Use with the generic validation message class
     displayMessage: { [key: string]: string } = {};
@@ -82,6 +82,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
         );
     }
 
+    // To ensure the subscription is appropriately cleaned up - unsubscribe from an observable
     ngOnDestroy(): void {
         this.sub.unsubscribe();
     }
