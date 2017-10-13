@@ -7,11 +7,14 @@ import { SharedModule } from './../shared/shared.module';
 
 import { ProductListComponent } from './product-list.component';
 import { ProductDetailComponent } from './product-detail.component';
-import { ProductEditComponent } from './product-edit.component';
+// import { ProductEditComponent } from './product-edit.component';
 
 import { ConvertToSpacesPipe } from '../shared/convert-to-spaces.pipe';
 
-import { ProductDetailGuard, ProductEditGuard } from './product-guard.service';
+import {
+  ProductDetailGuard
+  // ProductEditGuard
+} from './product-guard.service';
 import { ProductService } from './product.service';
 
 @NgModule({
@@ -24,13 +27,13 @@ import { ProductService } from './product.service';
   declarations: [
     ProductListComponent,
     ProductDetailComponent,
-    ProductEditComponent,
+    // ProductEditComponent,
     ConvertToSpacesPipe
   ],
   providers: [
     ProductService,
-    ProductDetailGuard,
-    ProductEditGuard
+    ProductDetailGuard
+    // ProductEditGuard
   ]
 })
 export class ProductModule { }
