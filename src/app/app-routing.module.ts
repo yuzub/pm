@@ -14,7 +14,9 @@ import { CustomerRfComponent } from './customers/customer-rf.component';
       { path: 'customer-rf', component: CustomerRfComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: '**', component: PageNotFoundComponent }
-    ]),
+    ]
+    // , { enableTracing: true }
+    ),
   ],
   exports: [RouterModule]
 })

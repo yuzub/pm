@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { ProductModule } from './products/product.module';
+import { UserModule } from './user/user.module';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
@@ -29,6 +30,7 @@ import { CustomerRfComponent } from './customers/customer-rf.component';
     ReactiveFormsModule,
     HttpClientModule,
     ProductModule,
+    UserModule,
     AppRoutingModule
   ],
   bootstrap: [AppComponent]
