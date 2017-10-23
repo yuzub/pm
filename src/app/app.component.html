@@ -4,11 +4,28 @@
       <a routerLink="" class="navbar-brand">{{pageTitle}}</a>
       <ul class="nav navbar-nav">
         <li routerLinkActive="active"><a routerLink="/welcome">Home</a></li>
-        <li routerLinkActive="active"><a routerLink="/products">Product List</a></li>
-        <li routerLinkActive="active"><a [routerLink]="['/productEdit/0']">Add Product</a></li>
+        <li routerLinkActive="active"><a routerLink="/products">ProdList</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['/productEdit/0']">AddProd</a></li>
         <li routerLinkActive="active"><a routerLink="/customer">Customer</a></li>
-        <li routerLinkActive="active"><a routerLink="/customer-rf">Customer-rf</a></li>
-        <li routerLinkActive="active"><a routerLink="/login">Log In</a></li>
+        <li routerLinkActive="active"><a routerLink="/customer-rf">Cust.-rf</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+          <li *ngIf="authService.isLoggedIn()">
+              <a [routerLink]="['/login']">Welcome {{ authService.currentUser.userName }}</a>
+          </li>
+          <li *ngIf="!messageService.isDisplayed">
+              <a (click)="displayMessages()">Show Messages</a>
+          </li>
+          <li *ngIf="messageService.isDisplayed">
+              <a (click)="hideMessages()">Hide Messages</a>
+          </li>
+          <li *ngIf="!authService.isLoggedIn()">
+              <a [routerLink]="['/login']">Log In</a>
+          </li>
+          <li *ngIf="authService.isLoggedIn()">
+              <a (click)="logOut()">Log Out</a>
+          </li>
       </ul>
     </div>
   </nav>

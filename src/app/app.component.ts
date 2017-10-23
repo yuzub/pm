@@ -1,4 +1,8 @@
 import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+
+import { AuthService } from "./user/auth.service";
+import { MessageService } from "./messages/message.service";
 
 @Component({
   selector: 'pm-root',
@@ -6,16 +10,19 @@ import { Component } from "@angular/core";
 })
 export class AppComponent {
   pageTitle: string = 'Acme Product Management';
-}
+  loading: boolean = true;
 
-/* import { Component } from '@angular/core';
+  constructor(private authService: AuthService,
+    private messageService: MessageService,
+    private router: Router) {
 
-@Component({
-  selector: 'pm-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
-})
-export class AppComponent {
-  title = 'Angular: Getting Started';
+    /*     router.events.subscribe((routerEvent: Event) => {
+          this.checkRouterEvent(routerEvent);
+        }); */
+  }
+
+  logOut() {
+    this.authService.logout();
+    this.router.navigateByUrl('/welcome');
+  }
 }
- */

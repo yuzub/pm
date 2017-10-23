@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 
 import { ProductModule } from './products/product.module';
 import { UserModule } from './user/user.module';
+import { MessageModule } from './messages/message.module';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
@@ -31,6 +32,7 @@ import { CustomerRfComponent } from './customers/customer-rf.component';
     HttpClientModule,
     ProductModule,
     UserModule,
+    MessageModule,
     AppRoutingModule
   ],
   bootstrap: [AppComponent]
