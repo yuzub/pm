@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { ProductListComponent } from './product-list.component';
 import { ProductDetailComponent } from './product-detail.component';
-// import { ProductEditComponent } from './product-edit.component';
+import { ProductEditComponent } from './product-edit.component';
 
 import {
   ProductDetailGuard
@@ -15,6 +15,7 @@ import {
     RouterModule.forChild([
       { path: 'products', component: ProductListComponent },
       { path: 'products/:id', canActivate: [ProductDetailGuard], component: ProductDetailComponent },
+      { path: 'products/:id/edit', canActivate: [ProductDetailGuard], component: ProductEditComponent },
       // { path: 'productEdit/:id', canDeactivate: [ProductEditGuard], component: ProductEditComponent }
     ])
   ],
