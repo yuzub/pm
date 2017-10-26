@@ -10,13 +10,14 @@ import { IProduct } from './product';
 export class ProductDetailComponent implements OnInit {
   pageTitle: string = 'Product Detail';
   product: IProduct;
+  id: number;
 
   constructor(private _route: ActivatedRoute,
     private _router: Router) { }
 
   ngOnInit() {
-    let id = +this._route.snapshot.paramMap.get('id');
-    this.pageTitle += `: ${id}`;
+    this.id = +this._route.snapshot.paramMap.get('id');
+    this.pageTitle += `: ${this.id}`;
     this.product = {
       "productId": 1,
       "productName": "Leaf Rake",

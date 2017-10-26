@@ -10,7 +10,7 @@ export class ProductDetailGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
     let id = +route.url[1].path;
-    if (isNaN(id) || id < 1) {
+    if (isNaN(id) || id < 0) {
       alert('Invalid product Id');
       // start a new navigation to redirect to list page
       this._router.navigate(['/products']);
