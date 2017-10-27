@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 
 import { Observable } from "rxjs/Observable";
@@ -12,9 +13,11 @@ import { IProduct } from "./product";
 
 @Injectable()
 export class ProductService {
+  private baseUrl = 'api/products';
   private _productUrl = './api/products/products.json';
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient,
+    private http: Http) { }
 
   getProducts(): Observable<IProduct[]> {
     return this._http.get<IProduct[]>(this._productUrl)
@@ -23,7 +26,17 @@ export class ProductService {
   }
 
   getProduct(id: number): Observable<IProduct> {
-    return;
+    if (id === 0) {
+      return Observable.create((observer: any) => {
+        // observer.next(this.initializeProduct());
+        observer.complete();
+      });
+    }
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.get(url)
+      .map(this.extractData)
+      .do(data => console.log('getProduct: ' + JSON.stringify(data)))
+      .catch(this.handleError);
   }
 
   deleteProduct(id: number): Observable<Response> {
@@ -34,9 +47,14 @@ export class ProductService {
     return;
   }
 
+  private extractData(response: Response) {
+    let body = response.json();
+    return body.data || {};
+  }
+
   private handleError(err: HttpErrorResponse) {
     console.log(err.message);
     return Observable.throw(err.message);
   }
 
-  }
+}

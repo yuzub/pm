@@ -34,13 +34,13 @@
             [style.width.px]="imgWidth"
             [style.margin.px]="imgMargin">
           </td>
-          <td><a [routerLink]="['/products', product.productId]">{{ product.productName }}</a></td>
+          <td><a [routerLink]="['/products', product.id]">{{ product.productName }}</a></td>
           <td>{{ product.productCode | lowercase | convertToSpaces: '-'}}</td>
           <td>{{ product.releaseDate }}</td>
           <td>{{ product.price | currency: 'USD':true:'1.2-2' }}</td>
           <td><pm-star [rating]="product.starRating" (ratingClicked)="onRatingClicked($event)"></pm-star></td>
           <td>
-            <a class="btn btn-primary" [routerLink]="['/products', product.productId, 'edit']">Edit</a>
+            <a class="btn btn-primary" [routerLink]="['/products', product.id, 'edit']">Edit</a>
           </td>
         </tr>
       </tbody>
