@@ -1,38 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { Subscription }       from 'rxjs/Subscription';
 
 import { IProduct } from './product';
+import { ProductService } from './product.service';
 
 @Component({
-  templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.css']
+    templateUrl: './product-detail.component.html'
 })
-export class ProductDetailComponent implements OnInit {
-  pageTitle: string = 'Product Detail';
-  product: IProduct;
-  id: number;
+export class ProductDetailComponent implements OnInit, OnDestroy {
+    pageTitle: string = 'Product Detail';
+    product: IProduct;
+    errorMessage: string;
+    private sub: Subscription;
 
-  constructor(private _route: ActivatedRoute,
-    private _router: Router) { }
+    constructor(private route: ActivatedRoute,
+                private router: Router,
+                private productService: ProductService) {
+    }
 
-  ngOnInit() {
-    this.id = +this._route.snapshot.paramMap.get('id');
-    this.pageTitle += `: ${this.id}`;
-    this.product = {
-      "id": 1,
-      "productName": "Leaf Rake",
-      "productCode": "GDN-0011",
-      "releaseDate": "March 19, 2016",
-      "description": "Leaf rake with 48-inch wooden handle.",
-      "price": 19.95,
-      "starRating": 3.2,
-      "imageUrl": "http://openclipart.org/image/300px/svg_to_png/26215/Anonymous_Leaf_Rake.png",
-      "tags": []
-    };
-  }
+    ngOnInit(): void {
+        this.sub = this.route.params.subscribe(
+            params => {
+                let id = +params['id'];
+                this.getProduct(id);
+        });
+    }
 
-  onBack() {
-    this._router.navigate(['/products']);
-  }
+    ngOnDestroy() {
+        this.sub.unsubscribe();
+    }
 
+    getProduct(id: number) {
+        this.productService.getProduct(id).subscribe(
+            product => this.product = product,
+            error => this.errorMessage = <any>error);
+    }
+
+    onBack(): void {
+        this.router.navigate(['/products']);
+    }
+
+    onRatingClicked(message: string): void {
+        this.pageTitle = 'Product Detail: ' + message;
+    }
 }

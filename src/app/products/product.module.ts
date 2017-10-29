@@ -18,8 +18,8 @@ import { ProductEditComponent } from './product-edit.component';
 import { ConvertToSpacesPipe } from '../shared/convert-to-spaces.pipe';
 
 import {
-  ProductDetailGuard
-  // ProductEditGuard
+  ProductDetailGuard,
+  ProductEditGuard
 } from './product-guard.service';
 
 import { ProductService } from './product.service';
@@ -39,8 +39,8 @@ import { ProductService } from './product.service';
   ],
   providers: [
     ProductService,
-    ProductDetailGuard
-    // ProductEditGuard
+    ProductDetailGuard,
+    ProductEditGuard
   ]
 })
 export class ProductModule { }
