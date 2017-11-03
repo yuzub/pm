@@ -23,6 +23,10 @@ import {
 } from './product-guard.service';
 
 import { ProductService } from './product.service';
+import {ProductResolver} from './product-resolver.service';
+
+import { ProductEditInfoComponent } from './product-edit-info.component';
+import { ProductEditTagsComponent } from './product-edit-tags.component';
 
 @NgModule({
   imports: [
@@ -35,10 +39,13 @@ import { ProductService } from './product.service';
     ProductListComponent,
     ProductDetailComponent,
     ProductEditComponent,
+    ProductEditInfoComponent,
+    ProductEditTagsComponent,
     ConvertToSpacesPipe
   ],
   providers: [
     ProductService,
+    ProductResolver,
     ProductDetailGuard,
     ProductEditGuard
   ]

@@ -1,61 +1,62 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
-      {{pageTitle}}
+    {{pageTitle}}
   </div>
 
   <div class="panel-body">
-      <form class="form-horizontal"
+
+    <!--       <form class="form-horizontal"
             novalidate
             (ngSubmit)="saveProduct()"
             [formGroup]="productForm" >
           <fieldset>
-              <div class="form-group" 
+              <div class="form-group"
                    [ngClass]="{'has-error': displayMessage.productName }">
                   <label class="col-md-2 control-label" for="productNameId">Product Name</label>
 
                   <div class="col-md-8">
-                      <input class="form-control" 
-                              id="productNameId" 
-                              type="text" 
-                              placeholder="Name (required)" 
+                      <input class="form-control"
+                              id="productNameId"
+                              type="text"
+                              placeholder="Name (required)"
                               formControlName="productName" />
                       <span class="help-block" *ngIf="displayMessage.productName">
                               {{displayMessage.productName}}
                       </span>
                   </div>
               </div>
-              
-              <div class="form-group" 
+
+              <div class="form-group"
                    [ngClass]="{'has-error': displayMessage.productCode}">
                   <label class="col-md-2 control-label" for="productCodeId">Product Code</label>
 
                   <div class="col-md-8">
-                      <input class="form-control" 
-                              id="productCodeId" 
-                              type="text" 
-                              placeholder="Code (required)" 
+                      <input class="form-control"
+                              id="productCodeId"
+                              type="text"
+                              placeholder="Code (required)"
                               formControlName="productCode" />
                       <span class="help-block" *ngIf="displayMessage.productCode">
                               {{displayMessage.productCode}}
                       </span>
                   </div>
               </div>
-              
+
               <div class="form-group" [ngClass]="{'has-error': displayMessage.starRating}">
                   <label class="col-md-2 control-label" for="starRatingId">Star Rating (1-5)</label>
 
                   <div class="col-md-8">
-                      <input class="form-control" 
-                              id="starRatingId" 
-                              type="text" 
-                              placeholder="Rating" 
+                      <input class="form-control"
+                              id="starRatingId"
+                              type="text"
+                              placeholder="Rating"
                               formControlName="starRating" />
                       <span class="help-block" *ngIf="displayMessage.starRating">
                               {{displayMessage.starRating}}
                       </span>
                   </div>
               </div>
-              
+
               <div formArrayName="tags">
                   <div class="row">
                       <button class="col-md-offset-1 col-md-1 btn btn-default"
@@ -68,10 +69,10 @@
                       <label class="col-md-2 control-label" [attr.for]="i">Tag</label>
 
                       <div class="col-md-8">
-                          <input class="form-control" 
-                                  [id]="i" 
-                                  type="text" 
-                                  placeholder="Tag" 
+                          <input class="form-control"
+                                  [id]="i"
+                                  type="text"
+                                  placeholder="Tag"
                                   [formControlName]="i" />
                       </div>
                   </div>
@@ -81,8 +82,8 @@
                   <label class="col-md-2 control-label" for="descriptionId">Description</label>
 
                   <div class="col-md-8">
-                      <textarea class="form-control" 
-                              id="descriptionId" 
+                      <textarea class="form-control"
+                              id="descriptionId"
                               placeholder="Description"
                               rows=3
                               formControlName="description"></textarea>
@@ -115,12 +116,49 @@
                              (click)="deleteProduct()">
                               Delete
                           </a>
-                      </span>       
+                      </span>
                    </div>
               </div>
           </fieldset>
       </form>
-      <div class='has-error' *ngIf='errorMessage'>{{errorMessage}}</div>
+      <div class='has-error' *ngIf='errorMessage'>{{errorMessage}}</div> -->
+
+    <div class="wizard">
+      <a [routerLink]="['info']">Basic Information</a>
+      <a routerLink="tags">Search Tags</a>
+    </div>
+
+    <router-outlet></router-outlet>
   </div>
+
+  <div class="panel-footer">
+      <div class="row">
+          <div class="col-md-6 col-md-offset-2">
+              <span>
+                  <button class="btn btn-primary"
+                          type="button"
+                          style="width:80px;margin-right:10px"
+
+                          (click)="saveProduct()">
+                      Save
+                  </button>
+              </span>
+              <span>
+                  <a class="btn btn-default"
+                      [routerLink]="['/products']">
+                      Cancel
+                  </a>
+              </span>
+              <span>
+                  <a class="btn btn-default"
+                      (click)="deleteProduct()">
+                      Delete
+                  </a>
+              </span>
+          </div>
+      </div>
+  </div>
+
+  <div class="has-error" *ngIf="errorMessage">{{errorMessage}}</div>
 
 </div>
