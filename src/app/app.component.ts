@@ -21,6 +21,16 @@ export class AppComponent {
         }); */
   }
 
+  displayMessages(): void {
+    this.router.navigate([{ outlets: { popup: ['messages'] } }]);
+    this.messageService.isDisplayed = true;
+  }
+
+  hideMessages(): void {
+    this.router.navigate([{ outlets: { popup: null } }])
+    this.messageService.isDisplayed = false;
+  }
+
   logOut() {
     this.authService.logout();
     this.router.navigateByUrl('/welcome');
