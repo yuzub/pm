@@ -26,6 +26,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
   productForm: FormGroup;
 
   product: IProduct;
+  private dataIsValid: { [key: string]: boolean } = {};
   private sub: Subscription;
 
   // Use with the generic validation message class
@@ -161,6 +162,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.productForm.dirty && this.productForm.valid) {
       // Copy the form values over the product object values
       let p = Object.assign({}, this.product, this.productForm.value);
+      console.log(JSON.stringify(p));
 
       this.productService.saveProduct(p)
         .subscribe(
@@ -176,5 +178,37 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     // Reset the form to clear the flags
     this.productForm.reset();
     this.router.navigate(['/products']);
+  }
+
+  isValid(path: string): boolean {
+    this.validate();
+    if (path) {
+      return this.dataIsValid[path];
+    }
+    return (this.dataIsValid &&
+      Object.keys(this.dataIsValid).every(d => this.dataIsValid[d] === true));
+  }
+
+  validate(): void {
+    // Clear the validation object
+    this.dataIsValid = {};
+
+    // 'info' tab
+    if (this.product.productName &&
+      this.product.productName.length >= 3 &&
+      this.product.productCode) {
+      this.dataIsValid['info'] = true;
+    } else {
+      this.dataIsValid['info'] = false;
+    }
+
+    // 'tags' tab
+    if (true == true)
+    // (this.product.category && this.product.category.length >= 3)
+    {
+      this.dataIsValid['tags'] = true;
+    } else {
+      this.dataIsValid['tags'] = false;
+    }
   }
 }
